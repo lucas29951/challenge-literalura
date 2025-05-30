@@ -71,7 +71,12 @@ public class Principal {
 
         if (libroBuscado.isPresent()) {
             System.out.println("Libro encontrado!");
-            System.out.println(libroBuscado.get());
+            System.out.println("Titulo: " + libroBuscado.get().titulo());
+            System.out.print("Autor: ");
+            libroBuscado.get().autores().stream().map(a -> a.nombre()).forEach(System.out::println);
+            System.out.print("Idiomas: ");
+            libroBuscado.get().idiomas().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
+            System.out.println("Cantidad de Descargas: " + libroBuscado.get().cantidadDeDescargas());
         } else {
             System.out.println("Libro no encontrado.");
         }
