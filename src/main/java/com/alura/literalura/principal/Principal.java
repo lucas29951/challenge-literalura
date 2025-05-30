@@ -1,6 +1,7 @@
 package com.alura.literalura.principal;
 
 import com.alura.literalura.model.Datos;
+import com.alura.literalura.model.DatosAutor;
 import com.alura.literalura.model.DatosLibro;
 import com.alura.literalura.service.ConsumoAPI;
 import com.alura.literalura.service.ConvierteDatos;
@@ -17,6 +18,7 @@ public class Principal {
     private ConvierteDatos conversor = new ConvierteDatos();
     private Scanner teclado = new Scanner(System.in);
     private List<DatosLibro> libros = new ArrayList<>();
+    private List<DatosAutor> autores = new ArrayList<>();
 
     public void menuDeOpciones() {
         var opc = -1;
@@ -44,7 +46,7 @@ public class Principal {
                     listarLibrosRegistrados();
                     break;
                 case 3:
-                    //listarAutoresRegistrados();
+                    listarAutoresRegistrados();
                     break;
                 case 4:
                     //listarAutoresVivosPorAño();
@@ -82,6 +84,8 @@ public class Principal {
             System.out.println("Cantidad de Descargas: " + libroBuscado.get().cantidadDeDescargas());
 
             libros.add(libroBuscado.get());
+            DatosAutor autor = libroBuscado.get().autores().get(0);
+            autores.add(autor);
         } else {
             System.out.println("Libro no encontrado.");
         }
@@ -101,6 +105,20 @@ public class Principal {
             System.out.println("###################################");
         } else {
             System.out.println("Aun no hay libros registrados.");
+        }
+    }
+
+    private void listarAutoresRegistrados() {
+        if (!autores.isEmpty()) {
+            for (DatosAutor a : autores) {
+                System.out.println("=================================");
+                System.out.println("Nombre: " + a.nombre());
+                System.out.println("Fecha de Nacimiento: " + a.nacimiento());
+                System.out.println("Fecha de Fallecimiento: " + a.fallecimiento());
+            }
+            System.out.println("=================================");
+        } else {
+            System.out.println("Aun no se registraron autores.");
         }
     }
 }
