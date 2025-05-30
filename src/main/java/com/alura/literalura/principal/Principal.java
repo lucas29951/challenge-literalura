@@ -52,7 +52,7 @@ public class Principal {
                     //listarAutoresVivosPorAño();
                     break;
                 case 5:
-                    //listarLibrosPorIdioma();
+                    listarLibrosPorIdioma();
                     break;
                 case 0:
                     System.out.println("Saliendo de la aplicacion...");
@@ -120,5 +120,26 @@ public class Principal {
         } else {
             System.out.println("Aun no se registraron autores.");
         }
+    }
+
+    private void mostrarIdiomas() {
+        for (DatosLibro l : libros) {
+            System.out.print("| " + l.idiomas().get(0).toUpperCase() + " ");
+        }
+        System.out.println("|");
+    }
+
+    private void listarLibrosPorIdioma() {
+        System.out.println("Ingrese el idioma a buscar:");
+        mostrarIdiomas();
+        var idioma = teclado.nextLine();
+
+        libros.stream()
+                .filter(l -> l.idiomas().get(0).toUpperCase().contains(idioma.toUpperCase()))
+                .map(l -> "Titulo: " + l.titulo() +
+                        " - Autor: " + l.autores().get(0).nombre() +
+                        " - Idioma: " + l.idiomas().get(0).toUpperCase() +
+                        " - Cantidad de Descargas: " + l.cantidadDeDescargas())
+                .forEach(System.out::println);
     }
 }
