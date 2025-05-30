@@ -1,8 +1,11 @@
 package com.alura.literalura.principal;
 
+import com.alura.literalura.model.Datos;
+import com.alura.literalura.model.DatosLibro;
 import com.alura.literalura.service.ConsumoAPI;
 import com.alura.literalura.service.ConvierteDatos;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Principal {
@@ -32,7 +35,7 @@ public class Principal {
 
             switch (opc) {
                 case 1:
-                    //buscarLibroPorTitulo();
+                    buscarLibroPorTitulo();
                     break;
                 case 2:
                     //listarLibrosRegistrados();
@@ -52,6 +55,25 @@ public class Principal {
                 default:
                     System.out.println("Opcion invalida.");
             }
+        }
+    }
+
+    private void buscarLibroPorTitulo() {
+        System.out.println("Ingrese el nombre del libro a buscar:");
+        var tituloLibro = teclado.nextLine();
+
+        var json = consumoAPI.obtenerDatos(URL_BASE + "?search=" + tituloLibro.replace(" ", "+"));
+        var datosBusqueda = conversor.obtenerDatos(json, Datos.class);
+
+        Optional<DatosLibro> libroBuscado = datosBusqueda.resultados().stream()
+                        .filter(l -> l.titulo().toUpperCase().contains(tituloLibro.toUpperCase()))
+                        .findFirst();
+
+        if (libroBuscado.isPresent()) {
+            System.out.println("Libro encontrado!");
+            System.out.println(libroBuscado.get());
+        } else {
+            System.out.println("Libro no encontrado.");
         }
     }
 }
