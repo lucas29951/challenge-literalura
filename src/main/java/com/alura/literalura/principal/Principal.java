@@ -5,6 +5,8 @@ import com.alura.literalura.model.DatosLibro;
 import com.alura.literalura.service.ConsumoAPI;
 import com.alura.literalura.service.ConvierteDatos;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -14,6 +16,7 @@ public class Principal {
     private ConsumoAPI consumoAPI = new ConsumoAPI();
     private ConvierteDatos conversor = new ConvierteDatos();
     private Scanner teclado = new Scanner(System.in);
+    private List<DatosLibro> libros = new ArrayList<>();
 
     public void menuDeOpciones() {
         var opc = -1;
@@ -38,7 +41,7 @@ public class Principal {
                     buscarLibroPorTitulo();
                     break;
                 case 2:
-                    //listarLibrosRegistrados();
+                    listarLibrosRegistrados();
                     break;
                 case 3:
                     //listarAutoresRegistrados();
@@ -77,8 +80,27 @@ public class Principal {
             System.out.print("Idiomas: ");
             libroBuscado.get().idiomas().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
             System.out.println("Cantidad de Descargas: " + libroBuscado.get().cantidadDeDescargas());
+
+            libros.add(libroBuscado.get());
         } else {
             System.out.println("Libro no encontrado.");
+        }
+    }
+
+    private void listarLibrosRegistrados() {
+        if (!libros.isEmpty()) {
+            for (DatosLibro l : libros) {
+                System.out.println("###################################");
+                System.out.println("Titulo: " + l.titulo());
+                System.out.print("Autor: ");
+                l.autores().stream().map(a -> a.nombre()).forEach(System.out::println);
+                System.out.print("Idiomas: ");
+                l.idiomas().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
+                System.out.println("Cantidad de Descargas: " + l.cantidadDeDescargas());
+            }
+            System.out.println("###################################");
+        } else {
+            System.out.println("Aun no hay libros registrados.");
         }
     }
 }
