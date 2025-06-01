@@ -1,12 +1,27 @@
 package com.alura.literalura.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "autores")
 public class Autor {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
     private String nombre;
     private Integer nacimiento;
     private Integer fallecimiento;
 
     public Autor(){}
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
 
     public String getNombre() {
         return nombre;
