@@ -49,7 +49,7 @@ public class Principal {
                     listarAutoresRegistrados();
                     break;
                 case 4:
-                    //listarAutoresVivosPorAño();
+                    listarAutoresVivosPorAño();
                     break;
                 case 5:
                     listarLibrosPorIdioma();
@@ -120,6 +120,14 @@ public class Principal {
         } else {
             System.out.println("Aun no se registraron autores.");
         }
+    }
+
+    private void listarAutoresVivosPorAño() {
+        System.out.println("Ingrese el año que desea buscar:");
+        var añoDeBusqueda = teclado.nextInt();
+
+        autores.stream().filter(a -> a.fallecimiento() <= añoDeBusqueda)
+                .forEach(System.out::println);
     }
 
     private void mostrarIdiomas() {
