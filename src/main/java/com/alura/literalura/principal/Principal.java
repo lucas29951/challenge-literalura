@@ -75,13 +75,13 @@ public class Principal {
             System.out.println("Libro encontrado!");
             System.out.println("Titulo: " + libroBuscado.get().titulo());
             System.out.print("Autor: ");
-            libroBuscado.get().autores().stream().map(a -> a.nombre()).forEach(System.out::println);
+            libroBuscado.get().autor().stream().map(a -> a.nombre()).forEach(System.out::println);
             System.out.print("Idiomas: ");
-            libroBuscado.get().idiomas().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
+            libroBuscado.get().idioma().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
             System.out.println("Cantidad de Descargas: " + libroBuscado.get().cantidadDeDescargas());
 
             libros.add(libroBuscado.get());
-            DatosAutor autor = libroBuscado.get().autores().get(0);
+            DatosAutor autor = libroBuscado.get().autor().get(0);
             autores.add(autor);
         } else {
             System.out.println("Libro no encontrado.");
@@ -94,9 +94,9 @@ public class Principal {
                 System.out.println("###################################");
                 System.out.println("Titulo: " + l.titulo());
                 System.out.print("Autor: ");
-                l.autores().stream().map(a -> a.nombre()).forEach(System.out::println);
+                l.autor().stream().map(a -> a.nombre()).forEach(System.out::println);
                 System.out.print("Idiomas: ");
-                l.idiomas().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
+                l.idioma().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
                 System.out.println("Cantidad de Descargas: " + l.cantidadDeDescargas());
             }
             System.out.println("###################################");
@@ -132,7 +132,7 @@ public class Principal {
 
     private void mostrarIdiomas() {
         for (DatosLibro l : libros) {
-            System.out.print("| " + l.idiomas().get(0).toUpperCase() + " ");
+            System.out.print("| " + l.idioma().get(0).toUpperCase() + " ");
         }
         System.out.println("|");
     }
@@ -143,10 +143,10 @@ public class Principal {
         var idioma = teclado.nextLine();
 
         libros.stream()
-                .filter(l -> l.idiomas().get(0).toUpperCase().contains(idioma.toUpperCase()))
+                .filter(l -> l.idioma().get(0).toUpperCase().contains(idioma.toUpperCase()))
                 .map(l -> "Titulo: " + l.titulo() +
-                        " - Autor: " + l.autores().get(0).nombre() +
-                        " - Idioma: " + l.idiomas().get(0).toUpperCase() +
+                        " - Autor: " + l.autor().get(0).nombre() +
+                        " - Idioma: " + l.idioma().get(0).toUpperCase() +
                         " - Cantidad de Descargas: " + l.cantidadDeDescargas())
                 .forEach(System.out::println);
     }
