@@ -1,10 +1,21 @@
 package com.alura.literalura.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "libros")
 public class Libro {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+
+    @Column(unique = true)
     private String titulo;
-    private String autores;
-    private String idiomas;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Autor autor;
+    private String idioma;
     private Integer cantidadDeDescargas;
 
     public Libro(){}
@@ -17,20 +28,20 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public String getAutores() {
-        return autores;
+    public Autor getAutor() {
+        return autor;
     }
 
-    public void setAutores(String autores) {
-        this.autores = autores;
+    public void setAutor(Autor autor) {
+        this.autor = autor;
     }
 
-    public String getIdiomas() {
-        return idiomas;
+    public String getIdioma() {
+        return idioma;
     }
 
-    public void setIdiomas(String idiomas) {
-        this.idiomas = idiomas;
+    public void setIdioma(String idioma) {
+        this.idioma = idioma;
     }
 
     public Integer getCantidadDeDescargas() {
@@ -44,8 +55,8 @@ public class Libro {
     @Override
     public String toString() {
         return "titulo='" + titulo + '\'' +
-                ", autores='" + autores + '\'' +
-                ", idiomas='" + idiomas + '\'' +
+                ", autores='" + autor.getNombre() + '\'' +
+                ", idiomas='" + idioma.toUpperCase() + '\'' +
                 ", cantidadDeDescargas=" + cantidadDeDescargas + '\'';
     }
 }
