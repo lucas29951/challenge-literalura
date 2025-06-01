@@ -126,8 +126,11 @@ public class Principal {
         System.out.println("Ingrese el año que desea buscar:");
         var añoDeBusqueda = teclado.nextInt();
 
-        autores.stream().filter(a -> a.fallecimiento() <= añoDeBusqueda)
-                .forEach(System.out::println);
+        for (DatosAutor a : autores) {
+            if (a.fallecimiento() <= añoDeBusqueda) {
+                System.out.println("Nombre: " + a.nombre() + " - Fecha de Nacimiento: " + a.nacimiento());
+            }
+        }
     }
 
     private void mostrarIdiomas() {
