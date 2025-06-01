@@ -6,10 +6,7 @@ import com.alura.literalura.model.DatosLibro;
 import com.alura.literalura.service.ConsumoAPI;
 import com.alura.literalura.service.ConvierteDatos;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Principal {
 
@@ -127,7 +124,7 @@ public class Principal {
         var añoDeBusqueda = teclado.nextInt();
 
         for (DatosAutor a : autores) {
-            if (a.fallecimiento() <= añoDeBusqueda) {
+            if (a.fallecimiento() >= añoDeBusqueda) {
                 System.out.println("Nombre: " + a.nombre() + " - Fecha de Nacimiento: " + a.nacimiento());
             }
         }
