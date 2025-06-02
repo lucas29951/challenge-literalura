@@ -1,9 +1,7 @@
 package com.alura.literalura.principal;
 
-import com.alura.literalura.model.Datos;
-import com.alura.literalura.model.DatosAutor;
-import com.alura.literalura.model.DatosLibro;
-import com.alura.literalura.model.Libro;
+import com.alura.literalura.model.*;
+import com.alura.literalura.repository.AutorRepository;
 import com.alura.literalura.repository.LibroRepository;
 import com.alura.literalura.service.ConsumoAPI;
 import com.alura.literalura.service.ConvierteDatos;
@@ -15,14 +13,17 @@ public class Principal {
     private static final String URL_BASE = "https://gutendex.com/books/";
     private ConsumoAPI consumoAPI = new ConsumoAPI();
     private ConvierteDatos conversor = new ConvierteDatos();
-    private LibroRepository repositorio;
+    private LibroRepository repositorioLibro;
+    private AutorRepository repositorioAutor;
     private List<Libro> librosRegistrados;
+    private List<Autor> autoresRegistrados;
     private Scanner teclado = new Scanner(System.in);
     private List<DatosLibro> libros = new ArrayList<>();
     private List<DatosAutor> autores = new ArrayList<>();
 
-    public Principal(LibroRepository repository) {
-        this.repositorio = repository;
+    public Principal(LibroRepository repoLibro, AutorRepository repoAutor) {
+        this.repositorioLibro = repoLibro;
+        this.repositorioAutor = repoAutor;
     }
 
     public void menuDeOpciones() {
@@ -97,9 +98,9 @@ public class Principal {
 
             Libro libro = new Libro(datos);
 
-            Optional<Libro> libroExistente = repositorio.findByTitulo(libro.getTitulo());
+            Optional<Libro> libroExistente = repositorioLibro.findByTitulo(libro.getTitulo());
             if (!libroExistente.isPresent()) {
-                repositorio.save(libro);
+                repositorioLibro.save(libro);
                 System.out.println("LIBRO GUARDADO CORRECTAMENTE!");
             } else {
                 System.out.println("LIBRO YA EXISTENTE EN LA BASE DE DATOS.");
@@ -110,7 +111,7 @@ public class Principal {
     }
 
     private void listarLibrosRegistrados() {
-        librosRegistrados = repositorio.findAll();
+        librosRegistrados = repositorioLibro.findAll();
 
         if (!librosRegistrados.isEmpty()) {
             for (Libro l : librosRegistrados) {
@@ -127,16 +128,18 @@ public class Principal {
     }
 
     private void listarAutoresRegistrados() {
-        if (!autores.isEmpty()) {
-            for (DatosAutor a : autores) {
+        autoresRegistrados = repositorioAutor.findAll();
+
+        if (!autoresRegistrados.isEmpty()) {
+            for (Autor a : autoresRegistrados) {
                 System.out.println("=================================");
-                System.out.println("Nombre: " + a.nombre());
-                System.out.println("Fecha de Nacimiento: " + a.nacimiento());
-                System.out.println("Fecha de Fallecimiento: " + a.fallecimiento());
+                System.out.println("Nombre: " + a.getNombre());
+                System.out.println("Fecha de Nacimiento: " + a.getNacimiento());
+                System.out.println("Fecha de Fallecimiento: " + a.getFallecimiento());
             }
             System.out.println("=================================");
         } else {
-            System.out.println("Aun no se registraron autores.");
+            System.out.println("AUN NO SE REGISTRARON AUTORES.");
         }
     }
 
