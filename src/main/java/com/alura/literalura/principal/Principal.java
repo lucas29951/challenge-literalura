@@ -147,10 +147,17 @@ public class Principal {
         System.out.println("Ingrese el año que desea buscar:");
         var añoDeBusqueda = teclado.nextInt();
 
-        for (DatosAutor a : autores) {
-            if (a.fallecimiento() >= añoDeBusqueda) {
-                System.out.println("Nombre: " + a.nombre() + " - Fecha de Nacimiento: " + a.nacimiento());
+        autoresRegistrados = repositorioAutor.autoresVivosHastaDeterminadoAño(añoDeBusqueda);
+
+        if (!autoresRegistrados.isEmpty()) {
+            for (Autor a : autoresRegistrados) {
+                System.out.println("=================================");
+                System.out.println("Nombre: " + a.getNombre());
+                System.out.println("Fecha de Nacimiento: " + a.getNacimiento());
             }
+            System.out.println("=================================");
+        } else {
+            System.out.println("NO EXISTEN AUTORES VIVOS HASTA EL AÑO INGRESADO.");
         }
     }
 
