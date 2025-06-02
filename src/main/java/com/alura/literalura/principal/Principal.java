@@ -162,8 +162,10 @@ public class Principal {
     }
 
     private void mostrarIdiomas() {
-        for (DatosLibro l : libros) {
-            System.out.print("| " + l.idioma().get(0).toUpperCase() + " ");
+        List<String> idiomasExistentes = repositorioLibro.mostrarTodosLosIdiomas();
+
+        for (String lan : idiomasExistentes) {
+            System.out.print("| " + lan.toUpperCase() + " ");
         }
         System.out.println("|");
     }
@@ -173,12 +175,18 @@ public class Principal {
         mostrarIdiomas();
         var idioma = teclado.nextLine();
 
-        libros.stream()
-                .filter(l -> l.idioma().get(0).toUpperCase().contains(idioma.toUpperCase()))
-                .map(l -> "Titulo: " + l.titulo() +
-                        " - Autor: " + l.autor().get(0).nombre() +
-                        " - Idioma: " + l.idioma().get(0).toUpperCase() +
-                        " - Cantidad de Descargas: " + l.cantidadDeDescargas())
-                .forEach(System.out::println);
+        librosRegistrados = repositorioLibro.mostrarLibrosPorIdioma(idioma);
+
+        if (!librosRegistrados.isEmpty()) {
+            for (Libro l : librosRegistrados) {
+                System.out.println("###################################");
+                System.out.println("Titulo: " + l.getTitulo());
+                System.out.println("Autor: " + l.getAutor().getNombre());
+                System.out.println("Cantidad de Descargas: " + l.getCantidadDeDescargas());
+            }
+            System.out.println("###################################");
+        } else {
+            System.out.println("NO EXISTEN LIBROS CON EL IDIOMA INGRESADO.");
+        }
     }
 }
