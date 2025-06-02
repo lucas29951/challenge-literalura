@@ -20,6 +20,24 @@ public class Libro {
 
     public Libro(){}
 
+    public Libro(DatosLibro datosLibro) {
+        this.titulo = datosLibro.titulo();
+        this.idioma = datosLibro.idioma().get(0);
+        this.cantidadDeDescargas = datosLibro.cantidadDeDescargas();
+
+        DatosAutor datosAutor = datosLibro.autor().get(0);
+        Autor autor = new Autor(datosAutor);
+        this.autor = autor;
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
+
     public String getTitulo() {
         return titulo;
     }
