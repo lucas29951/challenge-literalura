@@ -15,6 +15,12 @@ public class Autor {
 
     public Autor(){}
 
+    public Autor(DatosAutor datosAutor) {
+        this.nombre = datosAutor.nombre();
+        this.nacimiento = datosAutor.nacimiento();
+        this.fallecimiento = datosAutor.fallecimiento();
+    }
+
     public Long getId() {
         return Id;
     }
