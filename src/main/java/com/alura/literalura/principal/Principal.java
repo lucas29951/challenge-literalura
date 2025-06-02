@@ -16,6 +16,7 @@ public class Principal {
     private ConsumoAPI consumoAPI = new ConsumoAPI();
     private ConvierteDatos conversor = new ConvierteDatos();
     private LibroRepository repositorio;
+    private List<Libro> librosRegistrados;
     private Scanner teclado = new Scanner(System.in);
     private List<DatosLibro> libros = new ArrayList<>();
     private List<DatosAutor> autores = new ArrayList<>();
@@ -109,19 +110,19 @@ public class Principal {
     }
 
     private void listarLibrosRegistrados() {
-        if (!libros.isEmpty()) {
-            for (DatosLibro l : libros) {
+        librosRegistrados = repositorio.findAll();
+
+        if (!librosRegistrados.isEmpty()) {
+            for (Libro l : librosRegistrados) {
                 System.out.println("###################################");
-                System.out.println("Titulo: " + l.titulo());
-                System.out.print("Autor: ");
-                l.autor().stream().map(a -> a.nombre()).forEach(System.out::println);
-                System.out.print("Idiomas: ");
-                l.idioma().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
-                System.out.println("Cantidad de Descargas: " + l.cantidadDeDescargas());
+                System.out.println("Titulo: " + l.getTitulo());
+                System.out.println("Autor: " + l.getAutor().getNombre());
+                System.out.println("Idioma: " + l.getIdioma().toUpperCase());
+                System.out.println("Cantidad de Descargas: " + l.getCantidadDeDescargas());
             }
             System.out.println("###################################");
         } else {
-            System.out.println("Aun no hay libros registrados.");
+            System.out.println("AUN NO HAY LIBROS REGISTRADOS.");
         }
     }
 
