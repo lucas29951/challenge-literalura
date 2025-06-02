@@ -9,5 +9,5 @@ public interface LibroRepository extends JpaRepository<Libro, Long> {
 
     Optional<Libro> findByTituloContainsIgnoreCase(String nombreLibro);
 
-    
+    Optional<Libro> findByTitulo(String titulo);
 }
