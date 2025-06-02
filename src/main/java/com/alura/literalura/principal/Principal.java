@@ -78,29 +78,34 @@ public class Principal {
                 .filter(l -> l.titulo().toUpperCase().contains(tituloLibro.toUpperCase()))
                 .findFirst();
 
-        if (libroBuscado.isPresent()) {
-            System.out.println("Libro encontrado!");
-            System.out.println("Titulo: " + libroBuscado.get().titulo());
-            System.out.print("Autor: ");
-            libroBuscado.get().autor().stream().map(a -> a.nombre()).forEach(System.out::println);
-            System.out.print("Idiomas: ");
-            libroBuscado.get().idioma().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
-            System.out.println("Cantidad de Descargas: " + libroBuscado.get().cantidadDeDescargas());
-
-            //libros.add(libroBuscado.get());
-            //DatosAutor autor = libroBuscado.get().autor().get(0);
-            //autores.add(autor);
-        } else {
-            System.out.println("Libro no encontrado.");
-        }
         return libroBuscado.get();
     }
 
     private void buscarLibroPorTitulo() {
         DatosLibro datos = obtenerDatosLibro();
-        Libro libro = new Libro(datos);
-        repositorio.save(libro);
-        //System.out.println(datos);
+
+        if (datos != null) {
+            System.out.println("LIBRO ENCONTRADO!");
+
+            System.out.println("Titulo: " + datos.titulo());
+            System.out.print("Autor: ");
+            datos.autor().stream().map(a -> a.nombre()).forEach(System.out::println);
+            System.out.print("Idioma: ");
+            datos.idioma().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
+            System.out.println("Cantidad de Descargas: " + datos.cantidadDeDescargas());
+
+            Libro libro = new Libro(datos);
+
+            Optional<Libro> libroExistente = repositorio.findByTitulo(libro.getTitulo());
+            if (!libroExistente.isPresent()) {
+                repositorio.save(libro);
+                System.out.println("LIBRO GUARDADO CORRECTAMENTE!");
+            } else {
+                System.out.println("LIBRO YA EXISTENTE EN LA BASE DE DATOS.");
+            }
+        } else {
+            System.out.println("LIBRO NO ENCONTRADO.");
+        }
     }
 
     private void listarLibrosRegistrados() {
