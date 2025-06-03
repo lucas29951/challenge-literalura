@@ -14,8 +14,8 @@ public interface LibroRepository extends JpaRepository<Libro, Long> {
     Optional<Libro> findByTitulo(String titulo);
 
     @Query(value = "SELECT DISTINCT(libros.idioma) FROM libros", nativeQuery = true)
-    List<String> mostrarTodosLosIdiomas();
+    List<String> obtenerIdiomas();
 
     @Query(value = "SELECT l FROM Libro l WHERE l.idioma ILIKE %:idiomaBuscado%")
-    List<Libro> mostrarLibrosPorIdioma(String idiomaBuscado);
+    List<Libro> obtenerLibrosPorIdioma(String idiomaBuscado);
 }
