@@ -101,15 +101,15 @@ public class Principal {
             datos.idioma().stream().map(i -> i.toUpperCase()).forEach(System.out::println);
             System.out.println("Cantidad de Descargas: " + datos.cantidadDeDescargas());
 
-            Libro libro = new Libro(datos);
+            String nombreAutor = datos.autor().get(0).nombre();
+            Autor autor = repositorioAutor.findByNombre(nombreAutor)
+                    .orElseGet(() -> repositorioAutor.save(new Autor(datos.autor().get(0))));
 
-            Optional<Libro> libroExistente = repositorioLibro.findByTitulo(libro.getTitulo());
-            if (!libroExistente.isPresent()) {
-                repositorioLibro.save(libro);
-                System.out.println("LIBRO GUARDADO CORRECTAMENTE!");
-            } else {
-                System.out.println("LIBRO YA EXISTENTE EN LA BASE DE DATOS.");
-            }
+            Libro libro = new Libro(datos);
+            libro.setAutor(autor);
+
+            repositorioLibro.findByTitulo(libro.getTitulo())
+                    .orElseGet(() -> repositorioLibro.save(libro));
         } else {
             System.out.println("LIBRO NO ENCONTRADO.");
         }
