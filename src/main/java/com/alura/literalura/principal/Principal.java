@@ -149,8 +149,15 @@ public class Principal {
     }
 
     private void listarAutoresVivosPorAño() {
+        var añoDeBusqueda = 0;
         System.out.println("Ingrese el año que desea buscar:");
-        var añoDeBusqueda = teclado.nextInt();
+        do {
+            añoDeBusqueda = teclado.nextInt();
+
+            if (añoDeBusqueda <= 0) {
+                System.out.println("Año invalido. Intente nuevamente..");
+            }
+        } while (añoDeBusqueda <= 0);
 
         autoresRegistrados = repositorioAutor.autoresVivosHastaDeterminadoAño(añoDeBusqueda);
 
