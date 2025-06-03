@@ -7,6 +7,7 @@ import com.alura.literalura.service.ConsumoAPI;
 import com.alura.literalura.service.ConvierteDatos;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -36,6 +37,7 @@ public class Principal {
                     3 - Listar autores registrados
                     4 - Listar autores vivos en un determinado año
                     5 - Listar libros por idioma
+                    6 - Estadisticas de Libros por Idioma
                     0 - Salir
                     --------------------------------------
                     """;
@@ -59,6 +61,9 @@ public class Principal {
                     break;
                 case 5:
                     listarLibrosPorIdioma();
+                    break;
+                case 6:
+                    listarLibrosPorIdiomaEstadistica();
                     break;
                 case 0:
                     System.out.println("Saliendo de la aplicacion...");
@@ -162,7 +167,7 @@ public class Principal {
     }
 
     private void mostrarIdiomas() {
-        List<String> idiomasExistentes = repositorioLibro.mostrarTodosLosIdiomas();
+        List<String> idiomasExistentes = repositorioLibro.obtenerIdiomas();
 
         for (String lan : idiomasExistentes) {
             System.out.print("| " + lan.toUpperCase() + " ");
@@ -175,7 +180,7 @@ public class Principal {
         mostrarIdiomas();
         var idioma = teclado.nextLine();
 
-        librosRegistrados = repositorioLibro.mostrarLibrosPorIdioma(idioma);
+        librosRegistrados = repositorioLibro.obtenerLibrosPorIdioma(idioma);
 
         if (!librosRegistrados.isEmpty()) {
             for (Libro l : librosRegistrados) {
@@ -188,5 +193,19 @@ public class Principal {
         } else {
             System.out.println("NO EXISTEN LIBROS CON EL IDIOMA INGRESADO.");
         }
+    }
+
+    private void listarLibrosPorIdiomaEstadistica() {
+        System.out.println("Ingrese el idioma a buscar:");
+        mostrarIdiomas();
+        var idioma = teclado.nextLine();
+
+        librosRegistrados = repositorioLibro.findAll();
+
+        IntSummaryStatistics est = librosRegistrados.stream()
+                .filter(l -> l.getIdioma().toUpperCase().compareToIgnoreCase(idioma.toUpperCase()) == 0)
+                .collect(Collectors.summarizingInt(Libro::getCantidadDeDescargas));
+
+        System.out.println("Cantidad de Libros del Idioma [" + idioma.toUpperCase() + "]: " + est.getCount());
     }
 }
