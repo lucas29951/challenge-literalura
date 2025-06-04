@@ -19,8 +19,6 @@ public class Principal {
     private List<Libro> librosRegistrados;
     private List<Autor> autoresRegistrados;
     private Scanner teclado = new Scanner(System.in);
-    private List<DatosLibro> libros = new ArrayList<>();
-    private List<DatosAutor> autores = new ArrayList<>();
 
     public Principal(LibroRepository repoLibro, AutorRepository repoAutor) {
         this.repositorioLibro = repoLibro;
@@ -88,6 +86,17 @@ public class Principal {
         return libroBuscado.get();
     }
 
+    private void mostrarDatosLibros() {
+        for (Libro l : librosRegistrados) {
+            System.out.println("###################################");
+            System.out.println("Titulo: " + l.getTitulo());
+            System.out.println("Autor: " + l.getAutor().getNombre());
+            System.out.println("Idioma: " + l.getIdioma().toUpperCase());
+            System.out.println("Cantidad de Descargas: " + l.getCantidadDeDescargas());
+        }
+        System.out.println("###################################");
+    }
+
     private void buscarLibroPorTitulo() {
         DatosLibro datos = obtenerDatosLibro();
 
@@ -119,14 +128,7 @@ public class Principal {
         librosRegistrados = repositorioLibro.findAll();
 
         if (!librosRegistrados.isEmpty()) {
-            for (Libro l : librosRegistrados) {
-                System.out.println("###################################");
-                System.out.println("Titulo: " + l.getTitulo());
-                System.out.println("Autor: " + l.getAutor().getNombre());
-                System.out.println("Idioma: " + l.getIdioma().toUpperCase());
-                System.out.println("Cantidad de Descargas: " + l.getCantidadDeDescargas());
-            }
-            System.out.println("###################################");
+            mostrarDatosLibros();
         } else {
             System.out.println("AUN NO HAY LIBROS REGISTRADOS.");
         }
@@ -190,13 +192,7 @@ public class Principal {
         librosRegistrados = repositorioLibro.obtenerLibrosPorIdioma(idioma);
 
         if (!librosRegistrados.isEmpty()) {
-            for (Libro l : librosRegistrados) {
-                System.out.println("###################################");
-                System.out.println("Titulo: " + l.getTitulo());
-                System.out.println("Autor: " + l.getAutor().getNombre());
-                System.out.println("Cantidad de Descargas: " + l.getCantidadDeDescargas());
-            }
-            System.out.println("###################################");
+            mostrarDatosLibros();
         } else {
             System.out.println("NO EXISTEN LIBROS CON EL IDIOMA INGRESADO.");
         }
